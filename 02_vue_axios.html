@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>vue_axios</title>
+  </head>
+  <body>
+    <div id="app">
+      <button v-on:click="showdata">get post!</button>
+      <ul v-html="text"></ul>
+    </div>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+      new Vue({
+        el: "#app",
+        data: {
+          text: ""
+        },
+        methods: {
+          showdata() {
+            axios
+              .get("https://jsonplaceholder.typicode.com/posts")
+              .then(response => {
+                let list = "";
+                response.data.forEach(item => {
+                  list += `<li><span style="font-weight:bold">${item.title}</span> - ${item.body}</li>`;
+                });
+                this.text = list;
+              })
+              .catch(error => {
+                console.log(error);
+              });
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
